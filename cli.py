@@ -5,6 +5,8 @@
 from logic import make_empty_board
 
 
+# Reminder to check all the tests
+
 if __name__ == '__main__':
     board = make_empty_board()
     winner = None
