@@ -25,3 +25,7 @@ if __name__ == '__main__':
         # TODO: Update who's turn it is.
         current_user = other_player(current_user)
         winner =  get_winner(board)
+    print(f'The winner is: {winner}')
+    print('The final board is:')
+    for row in board:
+        print(row)
