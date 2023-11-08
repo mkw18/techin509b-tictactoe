@@ -17,7 +17,8 @@ if __name__ == '__main__':
         for row in board:
             print(row)
         # TODO: Input a move from the player.
-        movement = input(f'Player {current_user}, please enter your next move, ranging from 0 to 2 (format: x,y): ').split(',')
+        movement = input(f'Player {current_user}, please enter your next move, \
+                         ranging from 0 to 2 (format: x,y): ').split(',')
         x = int(movement[0].strip())
         y = int(movement[1].strip())
         # TODO: Update the board.
