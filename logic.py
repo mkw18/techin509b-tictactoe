@@ -74,10 +74,10 @@ class Game:
         winner = self._board.get_winner()
         if not winner == 'Draw':
             print(f'The winner is: {winner}')
+            return f'The winner is: {winner}'
         else:
             print('Draw!')
-        # print('The final board is:')
-        # print(self._board)
+            return 'Draw!'
 
 
 class Human:
