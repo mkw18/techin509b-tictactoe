@@ -39,9 +39,24 @@ class TestGame(unittest.TestCase):
         self.playerO = Human('O')
         self.game = Game(self.playerX, self.playerO)
 
-    def test_init(self):
+    def test_init_board(self):
         self.assertIsInstance(self.game._board, Board)
         self.assertEqual(self.game._current_player, self.playerX)
+
+    def test_player_num(self):
+        self.assertIsInstance(self.game._playerX, Human)
+        self.assertIsInstance(self.game._playerO, Human)
+        self.assertEqual(self.game._player, 2)
+        self.playerX = Human('X')
+        self.playerO = Bot('O')
+        self.game = Game(self.playerX, self.playerO)
+        self.assertIsInstance(self.game._playerX, Human)
+        self.assertIsInstance(self.game._playerO, Bot)
+        self.assertEqual(self.game._player, 1)
+
+    def test_player_id(self):
+        self.assertEqual(self.game._playerX.id, 'X')
+        self.assertEqual(self.game._playerO.id, 'O')
 
     def test_other_player(self):
         self.assertEqual(self.game.other_player(), self.playerO)
@@ -62,6 +77,18 @@ class TestGame(unittest.TestCase):
         self.game._board.set(2, 2, 'O')
         self.assertEqual(self.game.run(), 'Draw!')
 
+
+class TestHuman(unittest.TestCase):
+    def setUp(self):
+        self.player = Human('O')
+        self.board = Board()
+
+    def test_id(self):
+        self.assertEqual(self.player.id, 'O')
+        
+    def test_get_move(self):
+        self.board.set(0,0,'X')
+        self.assertEqual(self.player.get_move(self.board, 0, 0), 'Occupied position, please try again.')
 
 if __name__ == '__main__':
     unittest.main()

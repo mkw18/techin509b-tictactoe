@@ -58,6 +58,10 @@ class Game:
         self._playerX = playerX
         self._playerO = playerO
         self._current_player = playerX
+        if isinstance(playerX, Human) and isinstance(playerO, Human):
+            self._player = 2
+        else:
+            self._player = 1
 
     def other_player(self):
         """Given the character for a player, returns the other player."""
@@ -84,16 +88,17 @@ class Human:
     def __init__(self, id):
         self.id = id
 
-    def get_move(self, board):
+    def get_move(self, board, x=0, y=0):
         while True:
-            movement = input(f'Player {self.id}, please enter your next move, ranging from 0 to 2 (format: x,y): ').split(',')
-            x = int(movement[0].strip())
-            y = int(movement[1].strip())
+            # movement = input(f'Player {self.id}, please enter your next move, ranging from 0 to 2 (format: x,y): ').split(',')
+            # x = int(movement[0].strip())
+            # y = int(movement[1].strip())
             if board.get(x,y) == None:
                 board.set(x, y, self.id)
                 break
             else:
                 print('Occupied position, please try again.')
+                return 'Occupied position, please try again.'
         return board
 
 
