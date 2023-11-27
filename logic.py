@@ -69,13 +69,19 @@ class Game:
             return self._playerO
         return self._playerX
 
-    def run(self):
+    def run(self, logger):
+        step = 0
         while self._board.get_winner() == None:
+            step += 1
+            logger.info(f'Step {step}: {self._current_player.id} take the turn')
             self._current_player.get_move(self._board)
             print(self._board)
+            logger.info(f'Renew the board: \n{self._board}')
             self._current_player = self.other_player()
 
         winner = self._board.get_winner()
+        with open('logs/database.txt', 'a') as f:
+            f.write(f'{winner}\t{int((step+1)/2)}\n')
         if not winner == 'Draw':
             print(f'The winner is: {winner}')
             return f'The winner is: {winner}'
