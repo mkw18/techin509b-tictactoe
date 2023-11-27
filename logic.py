@@ -90,9 +90,9 @@ class Human:
 
     def get_move(self, board, x=0, y=0):
         while True:
-            # movement = input(f'Player {self.id}, please enter your next move, ranging from 0 to 2 (format: x,y): ').split(',')
-            # x = int(movement[0].strip())
-            # y = int(movement[1].strip())
+            movement = input(f'Player {self.id}, please enter your next move, ranging from 0 to 2 (format: x,y): ').split(',')
+            x = int(movement[0].strip())
+            y = int(movement[1].strip())
             if board.get(x,y) == None:
                 board.set(x, y, self.id)
                 break
