@@ -3,6 +3,21 @@
 # should be unit-testable.
 
 import random
+import pandas as pd
+
+def read_games(path):
+    try:
+        return pd.read_csv(path, index_col=0)
+    except FileNotFoundError:
+        return pd.DataFrame(columns=[
+            "GameID",
+            "Player 1",
+            "Player 2",
+            "Winner",
+            "Starting Point",
+            "Position",
+            "Step"
+        ])
 
 
 class Board:
@@ -74,14 +89,31 @@ class Game:
         while self._board.get_winner() == None:
             step += 1
             logger.info(f'Step {step}: {self._current_player.id} take the turn')
-            self._current_player.get_move(self._board)
+            x,y = self._current_player.get_move(self._board)
             print(self._board)
             logger.info(f'Renew the board: \n{self._board}')
             self._current_player = self.other_player()
+            if step == 1:
+                starting_point = [x,y]
+                logger.info(f'Starting point: {starting_point}')
 
         winner = self._board.get_winner()
-        with open('logs/database.txt', 'a') as f:
-            f.write(f'{winner}\t{int((step+1)/2)}\n')
+        position = starting_point[0]%2 + starting_point[1]%2
+        position_map = ['corner', 'middle', 'center']
+
+        df = read_games('logs/database.csv')
+        df.loc[len(df)] = {
+            "GameID": len(df)+1,
+            "Player 1": "X",
+            "Player 2": "O",
+            "Winner" : winner,
+            "Starting Point": starting_point,
+            "Position": position_map[position],
+            "Step": step
+        }
+        df.to_csv('logs/database.csv')
+        # with open('logs/database.txt', 'a') as f:
+        #     f.write(f'{winner}\t{int((step+1)/2)}\t{starting_point[0]}\t{starting_point[1]}\t{position_map[position]}\n')
         if not winner == 'Draw':
             print(f'The winner is: {winner}')
             return f'The winner is: {winner}'
@@ -105,7 +137,7 @@ class Human:
             else:
                 print('Occupied position, please try again.')
                 return 'Occupied position, please try again.'
-        return board
+        return x,y
 
 
 class Bot:
@@ -121,5 +153,5 @@ class Bot:
         x, y = random.choices(available_pos)[0]
         print(f"Player {self.id}'s next move is {x, y}.")
         board.set(x, y, self.id)
-        return board
+        return x,y
   

@@ -42,7 +42,11 @@ if __name__ == '__main__':
             playerO = Human('O')
             break
         else:
-            print('Please input 1 or 2')
+            logger.info('Two player mode')
+            playerX = Bot('X')
+            playerO = Bot('O')
+            break
+            # print('Please input 1 or 2')
     game = Game(playerX, playerO)
     winner = game.run(logger)
     logger.info(winner)
