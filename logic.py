@@ -16,7 +16,8 @@ def read_games(path):
             "Winner",
             "Starting Point",
             "Position",
-            "Step"
+            "Step",
+            "Result of the First Player"
         ])
 
 
@@ -109,11 +110,10 @@ class Game:
             "Winner" : winner,
             "Starting Point": starting_point,
             "Position": position_map[position],
-            "Step": step
+            "Step": step,
+            "Result of the First Player": 'Win' if winner == 'X' else ('Lose' if winner == 'O' else 'Draw')
         }
         df.to_csv('logs/database.csv')
-        # with open('logs/database.txt', 'a') as f:
-        #     f.write(f'{winner}\t{int((step+1)/2)}\t{starting_point[0]}\t{starting_point[1]}\t{position_map[position]}\n')
         if not winner == 'Draw':
             print(f'The winner is: {winner}')
             return f'The winner is: {winner}'
